@@ -7,8 +7,5 @@
 
 [node name="TestWorld" parent="." instance=ExtResource("1_jjgbg")]
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.93167853, 0.36328375, 0, -0.36328375, 0.93167853, 0, 4.509, 10.179)
-
 [node name="FireTruck" parent="." instance=ExtResource("2_bo1nx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.2953162, 0)

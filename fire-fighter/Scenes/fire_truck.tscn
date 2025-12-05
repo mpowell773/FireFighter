@@ -1,7 +1,35 @@
-[gd_scene load_steps=2 format=3 uid="uid://c5sk2ve10eyp"]
+[gd_scene load_steps=6 format=3 uid="uid://c5sk2ve10eyp"]
 
 [ext_resource type="PackedScene" uid="uid://dnglf3e5thtxw" path="res://Assets/Vehicles/firetruck.glb" id="1_hjhou"]
+[ext_resource type="Script" uid="uid://brrbvjam0d7u2" path="res://Scenes/fire_truck.gd" id="1_kjkob"]
 
-[node name="FireTruck" type="Node3D"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_hjhou"]
+bounce = 0.1
 
-[node name="firetruck" parent="." instance=ExtResource("1_hjhou")]
+[sub_resource type="SphereShape3D" id="SphereShape3D_kjkob"]
+radius = 1.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_kjkob"]
+radius = 1.0
+height = 2.0
+
+[node name="FireTruck" type="RigidBody3D"]
+collision_layer = 2
+physics_material_override = SubResource("PhysicsMaterial_hjhou")
+gravity_scale = 5.0
+angular_damp = 10.0
+script = ExtResource("1_kjkob")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_kjkob")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+mesh = SubResource("SphereMesh_kjkob")
+
+[node name="CarMesh" parent="." instance=ExtResource("1_hjhou")]
+top_level = true
+
+[node name="RayCast3D" type="RayCast3D" parent="CarMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[editable path="CarMesh"]

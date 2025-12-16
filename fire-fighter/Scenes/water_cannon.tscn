@@ -1,6 +1,8 @@
-[gd_scene load_steps=10 format=4 uid="uid://bvcs73yntu6wg"]
+[gd_scene load_steps=12 format=4 uid="uid://bvcs73yntu6wg"]
 
+[ext_resource type="Script" uid="uid://8jwci70dkoyn" path="res://Scenes/water_cannon.gd" id="1_alumy"]
 [ext_resource type="Texture2D" uid="uid://bif4cy20pwmdg" path="res://Assets/WaterCannon/watercannoncolormap.png" id="1_ddwl7"]
+[ext_resource type="PackedScene" uid="uid://dl537jur3ga77" path="res://Scenes/water_drop.tscn" id="2_o1o07"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_do4qi"]
 resource_name = "colormap"
@@ -87,6 +89,8 @@ shadow_mesh = SubResource("ArrayMesh_xo4rf")
 albedo_texture = ExtResource("1_ddwl7")
 
 [node name="WaterCannon" type="Node3D"]
+script = ExtResource("1_alumy")
+water_drop_scene = ExtResource("2_o1o07")
 
 [node name="ConnectorMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00611794, 0, 0)
@@ -101,4 +105,4 @@ skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_alumy")
 
 [node name="CannonExit" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44544482, 0.34211957)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44544482, 0.46957916)

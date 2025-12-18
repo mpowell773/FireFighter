@@ -224,6 +224,8 @@ size = Vector3(1.4839554, 1.4134521, 2.0202026)
 [node name="FireTruck" type="VehicleBody3D"]
 collision_layer = 2
 mass = 300.0
+center_of_mass_mode = 1
+center_of_mass = Vector3(0, 0.8, 0.15)
 angular_damp = 10.0
 script = ExtResource("1_kjkob")
 
@@ -309,10 +311,15 @@ shape = SubResource("BoxShape3D_yk8tx")
 
 [node name="CamArm" type="SpringArm3D" parent="."]
 collision_mask = 0
-spring_length = 5.0
+spring_length = 6.05
 script = ExtResource("3_yk8tx")
 
 [node name="Camera3D" type="Camera3D" parent="CamArm"]
 
+[node name="ResetCamTimer" type="Timer" parent="CamArm"]
+one_shot = true
+
 [node name="WaterCannon" parent="." instance=ExtResource("4_h0qh7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6535003, -0.64226264)
+
+[connection signal="timeout" from="CamArm/ResetCamTimer" to="CamArm" method="_on_reset_cam_timer_timeout"]

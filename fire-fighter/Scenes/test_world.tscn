@@ -17,6 +17,7 @@ glow_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_au00k"]
 albedo_texture = ExtResource("1_skmq4")
+texture_filter = 4
 
 [node name="TestWorld" type="Node3D"]
 

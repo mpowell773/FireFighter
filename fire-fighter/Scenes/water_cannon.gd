@@ -16,10 +16,11 @@ func _process(_delta: float) -> void:
 
 func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("shoot_cannon"):
-		var water_drop = water_drop_scene.instantiate()
-		water_projectiles_manager.add_child(water_drop)
-		water_drop.position = cannon_exit.global_position
-		water_drop.apply_impulse(get_forward_direction() * impulse_strength)
+		if water_projectiles_manager:
+			var water_drop = water_drop_scene.instantiate() as RigidBody3D
+			water_projectiles_manager.add_child(water_drop)
+			water_drop.position = cannon_exit.global_position
+			water_drop.apply_impulse(get_forward_direction() * impulse_strength)
 
 
 func get_forward_direction() -> Vector3:
@@ -28,5 +29,5 @@ func get_forward_direction() -> Vector3:
 
 func assign_water_project_manager() -> void:
 	water_projectiles_manager = get_tree().get_first_node_in_group("water_projectile")
-	if not water_projectiles_manager == null:
+	if is_instance_valid(water_projectiles_manager):
 		has_water_initialized = true

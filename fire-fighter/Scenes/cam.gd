@@ -23,14 +23,17 @@ func _process(_delta: float) -> void:
 	if not has_been_selected:
 		fire_truck = assign_firetruck_variable()
 	else:
-		default_rotation_pos = (Vector3(fire_truck.rotation.x,
-										fire_truck.rotation.y,
-										0.0)
-										+ offset_rotation_pos
-										)
-	
-	if not is_manual_camera:
-			reset_to_default_position()
+		var update_rotation_pos := (Vector3(fire_truck.rotation.x,
+									fire_truck.rotation.y,
+									0.0)
+									+ offset_rotation_pos
+									)
+		#if update_rotation_pos.y >= TAU:
+		look_at(fire_truck.position)
+		default_rotation_pos = update_rotation_pos
+
+	#if not is_manual_camera:
+			#reset_to_default_position()
 
 
 func _input(event: InputEvent) -> void:

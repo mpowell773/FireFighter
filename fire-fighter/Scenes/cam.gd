@@ -1,17 +1,15 @@
 extends SpringArm3D
 
 var mouse_sensitivity := 0.1
-var reset_auto_camera_time := 0.5
+var reset_auto_camera_time := 1.0
 
 var fire_truck: VehicleBody3D
-var has_been_selected := false
+var has_been_selected := false 
 
 var tween: Tween
 var offset_rotation_pos := Vector3(deg_to_rad(-23.0),deg_to_rad(180.0), 0.0)
 var default_rotation_pos: Vector3
 var is_manual_camera := false
-
-var wait_frames: int = 0
 
 @onready var reset_cam_timer: Timer = $ResetCamTimer
 
@@ -34,7 +32,7 @@ func _process(_delta: float) -> void:
 		update_shortest_rotation_pos(update_rotation_pos)
 		
 	if not is_manual_camera:
-			reset_to_default_position()
+			reset_to_default_position(0.5)
 
 
 func _input(event: InputEvent) -> void:
@@ -59,10 +57,9 @@ func _input(event: InputEvent) -> void:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 
-func reset_to_default_position() -> void:
+func reset_to_default_position(duration) -> void:
 	delete_existing_tween(tween)
-	
-	var duration := 0.75
+
 	tween = create_tween()
 	tween.tween_property(self, "rotation", default_rotation_pos, duration)\
 		.set_trans(Tween.TRANS_SINE)\
@@ -86,6 +83,7 @@ func assign_firetruck_variable() -> VehicleBody3D:
 
 func update_shortest_rotation_pos(target_rotation_pos: Vector3) -> void:
 	var current_rotation_y := rotation.y
+	# Calculate shortest angle
 	target_rotation_pos.y = (current_rotation_y
 							+ fposmod(target_rotation_pos.y
 							- current_rotation_y

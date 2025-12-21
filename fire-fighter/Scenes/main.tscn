@@ -7,7 +7,7 @@
 
 [node name="TestWorld" parent="." instance=ExtResource("1_jjgbg")]
 
-[node name="FireTruck" parent="." instance=ExtResource("2_bo1nx")]
+[node name="FireTruck" parent="TestWorld" instance=ExtResource("2_bo1nx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.2953162, 0)
 
-[node name="WaterProjectilesManager" type="Node3D" parent="." groups=["water_projectile"]]
+[node name="WaterProjectilesManager" type="Node3D" parent="TestWorld" groups=["water_projectile"]]

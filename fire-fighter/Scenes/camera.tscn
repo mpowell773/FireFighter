@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://dfoh1lkrxr2wd"]
+
+[ext_resource type="Script" uid="uid://bklw4wppvg1tg" path="res://Scenes/cam.gd" id="1_375tr"]
+
+[node name="CamArm" type="Node3D"]
+script = ExtResource("1_375tr")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="SpringArm3D"]
+
+[node name="ResetCamTimer" type="Timer" parent="SpringArm3D"]
+one_shot = true
+
+[connection signal="timeout" from="SpringArm3D/ResetCamTimer" to="." method="_on_reset_cam_timer_timeout"]

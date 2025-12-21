@@ -1,7 +1,7 @@
 extends SpringArm3D
 
 var mouse_sensitivity := 0.1
-var reset_time := 1.0
+var reset_auto_camera_time := 0.5
 
 var fire_truck: VehicleBody3D
 var has_been_selected := false
@@ -11,12 +11,15 @@ var offset_rotation_pos := Vector3(deg_to_rad(-23.0),deg_to_rad(180.0), 0.0)
 var default_rotation_pos: Vector3
 var is_manual_camera := false
 
+var wait_frames: int = 0
+
 @onready var reset_cam_timer: Timer = $ResetCamTimer
 
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	set_as_top_level(true)
+	rotation = offset_rotation_pos
 
 
 func _process(_delta: float) -> void:
@@ -28,12 +31,10 @@ func _process(_delta: float) -> void:
 									0.0)
 									+ offset_rotation_pos
 									)
-		#if update_rotation_pos.y >= TAU:
-		look_at(fire_truck.position)
-		default_rotation_pos = update_rotation_pos
-
-	#if not is_manual_camera:
-			#reset_to_default_position()
+		update_shortest_rotation_pos(update_rotation_pos)
+		
+	if not is_manual_camera:
+			reset_to_default_position()
 
 
 func _input(event: InputEvent) -> void:
@@ -47,7 +48,7 @@ func _input(event: InputEvent) -> void:
 		rotation_degrees.y -= event.relative.x * mouse_sensitivity
 		rotation_degrees.y = wrapf(rotation_degrees.y, 0.0, 360.0)
 		
-		reset_cam_timer.start(reset_time)
+		reset_cam_timer.start(reset_auto_camera_time)
 		
 		
 	# Debug tool to exit out of screen easily.
@@ -60,12 +61,16 @@ func _input(event: InputEvent) -> void:
 
 func reset_to_default_position() -> void:
 	delete_existing_tween(tween)
+	
+	var duration := 0.75
 	tween = create_tween()
-	tween.tween_property(self, "rotation", default_rotation_pos, 0.25)
+	tween.tween_property(self, "rotation", default_rotation_pos, duration)\
+		.set_trans(Tween.TRANS_SINE)\
+		.set_ease(Tween.EASE_OUT)
 	
 	
 func delete_existing_tween(_tween: Tween) -> void:
-	if _tween:
+	if _tween and _tween.is_valid():
 		_tween.kill()
 
 
@@ -77,6 +82,17 @@ func assign_firetruck_variable() -> VehicleBody3D:
 		return parent
 		
 	return null
+
+
+func update_shortest_rotation_pos(target_rotation_pos: Vector3) -> void:
+	var current_rotation_y := rotation.y
+	target_rotation_pos.y = (current_rotation_y
+							+ fposmod(target_rotation_pos.y
+							- current_rotation_y
+							+ PI, TAU) - PI
+							)
+	
+	default_rotation_pos = target_rotation_pos
 
 
 func _on_reset_cam_timer_timeout() -> void:

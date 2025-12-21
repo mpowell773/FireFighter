@@ -15,19 +15,9 @@ var turn_movement := 0.0
 @onready var wheel_front_right: VehicleWheel3D = $WheelFrontRight
 
 
-func _ready() -> void:
-	cam_arm.rotate_y(PI)
-
-
 func _physics_process(delta: float) -> void:
 	cam_arm.position = position
-	#print(
-		#"rotation x: " + str(rad_to_deg(cam_arm.rotation.x)),
-		#"\nrotation y: " + str(rad_to_deg(cam_arm.rotation.y)),
-		#"\nrotation z: " + str(rad_to_deg(cam_arm.rotation.z))
-		#)
-	
-	
+
 	var RPM_left := absf(wheel_back_left.get_rpm())
 	var RPM_right := absf(wheel_back_right.get_rpm())
 	var RPM := (RPM_left + RPM_right) / 2.0

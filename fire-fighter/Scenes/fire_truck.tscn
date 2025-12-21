@@ -322,4 +322,8 @@ one_shot = true
 [node name="WaterCannon" parent="." instance=ExtResource("4_h0qh7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6535003, -0.64226264)
 
+[node name="VehicleTipTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="timeout" from="CamArm/ResetCamTimer" to="CamArm" method="_on_reset_cam_timer_timeout"]
+[connection signal="timeout" from="VehicleTipTimer" to="." method="_on_vehicle_tip_timer_timeout"]

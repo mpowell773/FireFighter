@@ -19,6 +19,7 @@ var has_corrected_vehicle_tip := false
 
 
 func _physics_process(delta: float) -> void:
+	set_deferred()
 	cam_arm.position = position
 	
 	correct_vehicle_tip()
@@ -44,16 +45,12 @@ func compute_vehicle_forces(delta: float) -> void:
 
 
 func correct_vehicle_tip() -> void:
-	if absf(global_rotation_degrees.z) > 60.0 and not has_corrected_vehicle_tip:
-		var correction_force := 2000.0
+	if absf(global_rotation_degrees.z) > 25.0:
+		var correction_force := 1750.0
 		if signf(global_rotation_degrees.z) == 1:
-			apply_torque_impulse(-basis.z * correction_force)
+			apply_torque(-basis.z * correction_force)
 		else:
-			apply_torque_impulse(basis.z * correction_force)
-		apply_impulse(Vector3.UP * 500.0)
-		
-		has_corrected_vehicle_tip = true
-		vehicle_tip_timer.start()
+			apply_torque(basis.z * correction_force)
 
 
 func all_wheels_in_contact() -> bool:
@@ -63,7 +60,3 @@ func all_wheels_in_contact() -> bool:
 		and wheel_front_right.is_in_contact():
 			return true
 	return false
-
-
-func _on_vehicle_tip_timer_timeout() -> void:
-	has_corrected_vehicle_tip = false

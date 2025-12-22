@@ -17,15 +17,12 @@ var has_corrected_vehicle_tip := false
 @onready var wheel_front_right: VehicleWheel3D = $WheelFrontRight
 @onready var vehicle_tip_timer: Timer = $VehicleTipTimer
 
-var wait_frame_counter: int = 0
+
 func _physics_process(delta: float) -> void:
 	cam_arm.position = position
 	
-	wait_frame_counter += 1
-	if wait_frame_counter >= 60:
-		print(global_rotation_degrees.z)
-		wait_frame_counter = 0
-	
+	if all_wheels_in_contact():
+		pass
 	correct_vehicle_tip()
 
 	var RPM_left := absf(wheel_back_left.get_rpm())
@@ -47,18 +44,32 @@ func _process(_delta: float) -> void:
 
 
 func correct_vehicle_tip() -> void:
-	var correction_force := 1500.0
 	if absf(global_rotation_degrees.z) > 60.0 and not has_corrected_vehicle_tip:
+		#axis_lock_angular_x = true
+		#axis_lock_angular_y = true
+		
+		var correction_force := 2000.0
 		if signf(global_rotation_degrees.z) == 1:
-			apply_torque_impulse(Vector3(0, 0, 1.0) * correction_force)
-			print("positive impulse")
+			var correction_torque := Vector3(0.0, 0.0, -1.0) * correction_force
+			apply_torque_impulse(correction_torque * global_transform.basis)
+			
 		else:
-			apply_torque_impulse(Vector3(0, 0, -1.0) * correction_force)
-			print("negative impulse")
+			var correction_torque := Vector3(0.0, 0.0, 1.0) * correction_force
+			apply_torque_impulse(correction_torque * global_basis)
+		apply_impulse(Vector3.UP * 500.0)
+		
 		has_corrected_vehicle_tip = true
 		vehicle_tip_timer.start()
 
 
+func all_wheels_in_contact() -> bool:
+	if wheel_back_left.is_in_contact()\
+		and wheel_back_right.is_in_contact()\
+		and wheel_front_left.is_in_contact()\
+		and wheel_front_right.is_in_contact():
+			return true
+	return false
+
+
 func _on_vehicle_tip_timer_timeout() -> void:
 	has_corrected_vehicle_tip = false
-	print("timed out")

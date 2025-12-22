@@ -1,5 +1,7 @@
 extends Node3D
 
+signal cannon_camera_readied(cannon_camera: Camera3D)
+
 @export var water_drop_scene: PackedScene
 @export var impulse_strength := 25.0
 
@@ -7,6 +9,11 @@ var has_water_initialized := false
 var water_projectiles_manager: Node3D = null
 
 @onready var cannon_exit: Marker3D = $CannonMesh/CannonExit
+@onready var cannon_cam: Camera3D = $CameraOffset/SpringArm3D/CannonCam
+
+
+func _ready() -> void:
+	cannon_camera_readied.emit(cannon_cam)
 
 
 func _physics_process(_delta: float) -> void:

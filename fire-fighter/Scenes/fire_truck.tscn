@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://brrbvjam0d7u2" path="res://Scenes/fire_truck.gd" id="1_kjkob"]
 [ext_resource type="Texture2D" uid="uid://boiodc4a04741" path="res://Assets/Vehicles/Textures/colormap.png" id="2_kjkob"]
-[ext_resource type="Script" uid="uid://bklw4wppvg1tg" path="res://Scenes/cam.gd" id="3_yk8tx"]
+[ext_resource type="Script" uid="uid://bklw4wppvg1tg" path="res://Scenes/fire_truck_cam.gd" id="3_yk8tx"]
 [ext_resource type="PackedScene" uid="uid://bvcs73yntu6wg" path="res://Scenes/water_cannon.tscn" id="4_h0qh7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_62e07"]
@@ -309,14 +309,14 @@ shape = SubResource("BoxShape3D_kjkob")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0034294128, 0.90893596, -0.6250999)
 shape = SubResource("BoxShape3D_yk8tx")
 
-[node name="CamArm" type="SpringArm3D" parent="."]
+[node name="FireTruckCam" type="SpringArm3D" parent="."]
 collision_mask = 0
 spring_length = 6.05
 script = ExtResource("3_yk8tx")
 
-[node name="Camera3D" type="Camera3D" parent="CamArm"]
+[node name="Camera3D" type="Camera3D" parent="FireTruckCam"]
 
-[node name="ResetCamTimer" type="Timer" parent="CamArm"]
+[node name="ResetCamTimer" type="Timer" parent="FireTruckCam"]
 one_shot = true
 
 [node name="WaterCannon" parent="." instance=ExtResource("4_h0qh7")]
@@ -325,4 +325,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6535003, -0.64226264)
 [node name="VehicleTipTimer" type="Timer" parent="."]
 one_shot = true
 
-[connection signal="timeout" from="CamArm/ResetCamTimer" to="CamArm" method="_on_reset_cam_timer_timeout"]
+[connection signal="fire_truck_cam_readied" from="FireTruckCam" to="." method="_on_fire_truck_cam_readied"]
+[connection signal="timeout" from="FireTruckCam/ResetCamTimer" to="FireTruckCam" method="_on_reset_cam_timer_timeout"]
+[connection signal="cannon_camera_readied" from="WaterCannon" to="." method="_on_water_cannon_camera_readied"]

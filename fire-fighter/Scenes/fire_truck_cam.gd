@@ -1,5 +1,7 @@
 extends SpringArm3D
 
+signal fire_truck_cam_readied(fire_truck_cam: Camera3D)
+
 var mouse_sensitivity := 0.1
 var reset_auto_camera_time := 1.0
 
@@ -12,12 +14,15 @@ var default_rotation_pos: Vector3
 var is_manual_camera := false
 
 @onready var reset_cam_timer: Timer = $ResetCamTimer
+@onready var camera_3d: Camera3D = $Camera3D
 
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	set_as_top_level(true)
 	rotation = offset_rotation_pos
+	camera_3d.make_current()
+	fire_truck_cam_readied.emit(camera_3d)
 
 
 func _process(_delta: float) -> void:

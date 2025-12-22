@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://dfoh1lkrxr2wd"]
+[gd_scene load_steps=2 format=3 uid="uid://ductw56f6ppr"]
 
-[ext_resource type="Script" uid="uid://bklw4wppvg1tg" path="res://Scenes/cam.gd" id="1_375tr"]
+[ext_resource type="Script" uid="uid://bklw4wppvg1tg" path="res://Scenes/fire_truck_cam.gd" id="1_375tr"]
 
 [node name="CamArm" type="Node3D"]
 script = ExtResource("1_375tr")

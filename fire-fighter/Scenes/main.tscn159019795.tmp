@@ -1,11 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dny5lug21b03j"]
+[gd_scene load_steps=3 format=3 uid="uid://dny5lug21b03j"]
 
-[ext_resource type="Script" uid="uid://ncoqi1bh6xqg" path="res://Scenes/main.gd" id="1_8gbba"]
 [ext_resource type="PackedScene" uid="uid://dex570upjh1mw" path="res://Scenes/test_world.tscn" id="1_jjgbg"]
 [ext_resource type="PackedScene" uid="uid://c5sk2ve10eyp" path="res://Scenes/fire_truck.tscn" id="2_bo1nx"]
 
 [node name="Main" type="Node"]
-script = ExtResource("1_8gbba")
 
 [node name="TestWorld" parent="." instance=ExtResource("1_jjgbg")]
 
@@ -13,6 +11,3 @@ script = ExtResource("1_8gbba")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.2953162, 0)
 
 [node name="WaterProjectilesManager" type="Node3D" parent="TestWorld" groups=["water_projectile"]]
-
-[connection signal="cannon_camera_readied" from="TestWorld/FireTruck" to="." method="_on_cannon_camera_readied"]
-[connection signal="fire_truck_cam_readied" from="TestWorld/FireTruck" to="." method="_on_fire_truck_cam_readied"]

@@ -8,8 +8,9 @@ signal cannon_camera_readied(cannon_camera: Camera3D)
 var has_water_initialized := false
 var water_projectiles_manager: Node3D = null
 
+@onready var cannon_mesh: MeshInstance3D = $CannonMesh
 @onready var cannon_exit: Marker3D = $CannonMesh/CannonExit
-@onready var cannon_cam: Camera3D = $CameraOffset/SpringArm3D/CannonCam
+@onready var cannon_cam: Camera3D = $CannonMesh/CameraOffset/SpringArm3D/CannonCam
 
 
 func _ready() -> void:
@@ -25,10 +26,15 @@ func _physics_process(_delta: float) -> void:
 			water_drop.apply_impulse(get_forward_direction() * impulse_strength)
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if not has_water_initialized:
 		assign_water_project_manager()
-
+	
+	var x_input := Input.get_axis("cannon_left", "cannon_right")
+	var y_input := Input.get_axis("cannon_down", "cannon_up")
+	
+	cannon_mesh.rotate_y(x_input * 1.5 * delta)
+	cannon_mesh.rotate_x(y_input * 1.5 * delta)
 
 func get_forward_direction() -> Vector3:
 	return cannon_exit.global_transform.basis.z 

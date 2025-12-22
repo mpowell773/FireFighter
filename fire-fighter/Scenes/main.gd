@@ -13,8 +13,12 @@ func _unhandled_input(event: InputEvent) -> void:
 			else:
 				cannon_camera.current = false
 				fire_truck_camera.current = true
-	
 
+
+func cameras_are_ready() -> bool:
+	if fire_truck_camera is Camera3D and cannon_camera is Camera3D:
+		return true
+	return false
 
 
 func _on_fire_truck_cam_readied(fire_truck_cam: Camera3D) -> void:
@@ -23,9 +27,3 @@ func _on_fire_truck_cam_readied(fire_truck_cam: Camera3D) -> void:
 
 func _on_cannon_camera_readied(water_cannon_camera: Camera3D) -> void:
 	cannon_camera = water_cannon_camera
-
-
-func cameras_are_ready() -> bool:
-	if fire_truck_camera is Camera3D and cannon_camera is Camera3D:
-		return true
-	return false

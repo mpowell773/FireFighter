@@ -21,10 +21,15 @@ var has_corrected_vehicle_tip := false
 func _physics_process(delta: float) -> void:
 	cam_arm.position = position
 	
-	if all_wheels_in_contact():
-		pass
 	correct_vehicle_tip()
+	compute_vehicle_forces(delta)
 
+func _process(_delta: float) -> void:
+	z_movement = Input.get_axis("accelerate", "brake") * -1.0
+	turn_movement = Input.get_axis("steer_left", "steer_right") * -1.0
+
+
+func compute_vehicle_forces(delta: float) -> void:
 	var RPM_left := absf(wheel_back_left.get_rpm())
 	var RPM_right := absf(wheel_back_right.get_rpm())
 	var RPM := (RPM_left + RPM_right) / 2.0
@@ -38,24 +43,13 @@ func _physics_process(delta: float) -> void:
 		brake = 2
 
 
-func _process(_delta: float) -> void:
-	z_movement = Input.get_axis("accelerate", "brake") * -1.0
-	turn_movement = Input.get_axis("steer_left", "steer_right") * -1.0
-
-
 func correct_vehicle_tip() -> void:
 	if absf(global_rotation_degrees.z) > 60.0 and not has_corrected_vehicle_tip:
-		#axis_lock_angular_x = true
-		#axis_lock_angular_y = true
-		
 		var correction_force := 2000.0
 		if signf(global_rotation_degrees.z) == 1:
-			var correction_torque := Vector3(0.0, 0.0, -1.0) * correction_force
-			apply_torque_impulse(correction_torque * global_transform.basis)
-			
+			apply_torque_impulse(-basis.z * correction_force)
 		else:
-			var correction_torque := Vector3(0.0, 0.0, 1.0) * correction_force
-			apply_torque_impulse(correction_torque * global_basis)
+			apply_torque_impulse(basis.z * correction_force)
 		apply_impulse(Vector3.UP * 500.0)
 		
 		has_corrected_vehicle_tip = true

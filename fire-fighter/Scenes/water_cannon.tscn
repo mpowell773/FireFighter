@@ -98,19 +98,19 @@ mesh = SubResource("ArrayMesh_alumy")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_o1o07")
 
-[node name="CannonMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.7985232, 0, 0.04858797, 0, 0.8000001, 0, -0.04858797, 0, 0.7985232, -0.023, 0.2, 0.054)
+[node name="CannonMesh" type="MeshInstance3D" parent="ConnectorMesh"]
+transform = Transform3D(0.7985232, 0, 0.04858797, 0, 0.8000001, 0, -0.04858797, 0, 0.7985232, -0.01688206, 0.2, 0.054)
 mesh = SubResource("ArrayMesh_ddwl7")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_alumy")
 
-[node name="CannonExit" type="Marker3D" parent="CannonMesh"]
+[node name="CannonExit" type="Marker3D" parent="ConnectorMesh/CannonMesh"]
 transform = Transform3D(1.2475334, 0, -0.07848815, 0, 1.2499999, 0, 0.07848815, 0, 1.2475334, -0.0039578006, 0.30624992, 0.52077913)
 
-[node name="CameraOffset" type="Node3D" parent="CannonMesh"]
+[node name="CameraOffset" type="Node3D" parent="ConnectorMesh/CannonMesh"]
 transform = Transform3D(-1.2476922, 0, 0.07591858, 0, 1.2499999, 0, -0.07591858, 0, -1.2476922, 0.14667457, 0.9999999, -1.9371676)
 
-[node name="SpringArm3D" type="SpringArm3D" parent="CannonMesh/CameraOffset"]
+[node name="SpringArm3D" type="SpringArm3D" parent="ConnectorMesh/CannonMesh/CameraOffset"]
 
-[node name="CannonCam" type="Camera3D" parent="CannonMesh/CameraOffset/SpringArm3D"]
+[node name="CannonCam" type="Camera3D" parent="ConnectorMesh/CannonMesh/CameraOffset/SpringArm3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.29051268)
